@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.Random;
 import java.util.stream.IntStream;
 
 @Service
@@ -20,11 +20,6 @@ public class CatalogServiceImpl implements CatalogService {
 
     private final CatalogRepository catalogRepository;
 
-
-    @Override
-    public List<Catalog> findByIdIn(List<UUID> uuids) {
-        return catalogRepository.findByIdIn(uuids);
-    }
 
     @Override
     public List<Catalog> dummyData() {
@@ -38,5 +33,26 @@ public class CatalogServiceImpl implements CatalogService {
     @Override
     public List<Catalog> findAll() {
         return catalogRepository.findAll();
+    }
+
+    @Override
+    public void randomUpdate() {
+        Faker faker = new Faker();
+        int num = getRandomNumber();
+        if (!findAll().isEmpty() && findAll().size() > num) {
+            Catalog catalog = findAll().get(num);
+            catalog.setCatalogName(faker.commerce().department());
+            catalogRepository.save(catalog);
+        }
+    }
+
+    /**
+     * Get random number from 0->3
+     *
+     * @return int
+     */
+    private int getRandomNumber() {
+        Random random = new Random();
+        return random.nextInt(3);
     }
 }

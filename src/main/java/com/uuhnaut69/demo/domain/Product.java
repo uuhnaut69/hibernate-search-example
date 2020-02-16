@@ -3,9 +3,13 @@ package com.uuhnaut69.demo.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.IndexedEmbedded;
+import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
+import org.apache.lucene.analysis.core.StopFilterFactory;
+import org.apache.lucene.analysis.ngram.NGramFilterFactory;
+import org.apache.lucene.analysis.standard.StandardFilterFactory;
+import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
+import org.hibernate.search.annotations.Parameter;
+import org.hibernate.search.annotations.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,26 +22,38 @@ import java.util.UUID;
 @Indexed
 @NoArgsConstructor
 @AllArgsConstructor
+@AnalyzerDef(name = "ngram",
+        tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+        filters = {
+                @TokenFilterDef(factory = StandardFilterFactory.class),
+                @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+                @TokenFilterDef(factory = StopFilterFactory.class),
+                @TokenFilterDef(factory = NGramFilterFactory.class,
+                        params = {
+                                @Parameter(name = "minGramSize", value = "3"),
+                                @Parameter(name = "maxGramSize", value = "3")})
+        }
+)
 public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Field
+    @Field(analyze = Analyze.YES, analyzer = @Analyzer(definition = "ngram"))
     @Column(columnDefinition = "text")
     private String productName;
 
-    @Field
+    @Field(analyze = Analyze.YES)
     @Column(columnDefinition = "text")
     private String description;
 
-    @IndexedEmbedded
+    @IndexedEmbedded(includeEmbeddedObjectId = true)
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "product_catalog", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "catalog_id"))
     private List<Catalog> catalogs = new ArrayList<>();
 
-    @Field
+    @Field(analyze = Analyze.NO)
     private boolean published;
 
     public Product(String productName, String description, List<Catalog> catalogs, boolean published) {
