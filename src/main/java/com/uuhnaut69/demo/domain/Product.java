@@ -1,6 +1,7 @@
 package com.uuhnaut69.demo.domain;
 
 import com.uuhnaut69.demo.config.bridge.SearchStringBridge;
+import com.uuhnaut69.demo.config.indexcondition.IndexWhenEnabledInterceptor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Indexed(index = "product")
+@Indexed(index = "product", interceptor = IndexWhenEnabledInterceptor.class)
 @AnalyzerDef(name = "edgeNgram",
         tokenizer = @TokenizerDef(factory = WhitespaceTokenizerFactory.class),
         filters = {
@@ -65,12 +66,13 @@ public class Product implements Serializable {
     private List<Catalog> catalogs = new ArrayList<>();
 
     @Field(analyze = Analyze.NO)
-    private boolean published;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
-    public Product(String productName, String description, List<Catalog> catalogs, boolean published) {
+    public Product(String productName, String description, List<Catalog> catalogs, Status status) {
         this.productName = productName;
         this.description = description;
         this.catalogs = catalogs;
-        this.published = published;
+        this.status = status;
     }
 }

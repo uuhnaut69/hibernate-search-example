@@ -25,24 +25,15 @@ public class ProductSearchRepositoryImpl implements ProductSearchRepository {
     @Override
     @SuppressWarnings("unchecked")
     public List<Product> fullTextSearch(String searchContent) {
-        Query query = getQueryBuilder().bool()
-                .must(
-                        getQueryBuilder().keyword()
-                                .onField("published")
-                                .matching(true)
-                                .createQuery()
-                )
-                .must(
-                        getQueryBuilder().simpleQueryString().onFields(PRODUCT_NAME, "description", "catalogs.catalogName")
-                                .withAndAsDefaultOperator().matching(searchContent).createQuery()
-                ).createQuery();
+        Query query = getQueryBuilder().simpleQueryString().onFields(PRODUCT_NAME, "description", "catalogs.catalogName")
+                .withAndAsDefaultOperator().matching(searchContent).createQuery();
         return getFullTextQuery(query).getResultList();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<Product> autocomplete(String searchContent) {
-        Query query = getAutocompleteQueryBuilder().bool().must(getQueryBuilder().keyword().onField("published").matching(true).createQuery()).must(getQueryBuilder().simpleQueryString().onField(PRODUCT_NAME).withAndAsDefaultOperator().matching(searchContent).createQuery()).createQuery();
+        Query query = getAutocompleteQueryBuilder().simpleQueryString().onField(PRODUCT_NAME).withAndAsDefaultOperator().matching(searchContent).createQuery();
         return getFullTextQuery(query).getResultList();
     }
 
