@@ -17,9 +17,9 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Indexed
 @NoArgsConstructor
 @AllArgsConstructor
+@Indexed(index = "catalog")
 public class Catalog implements Serializable {
 
     @Id

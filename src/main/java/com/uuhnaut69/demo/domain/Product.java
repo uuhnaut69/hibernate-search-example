@@ -1,13 +1,14 @@
 package com.uuhnaut69.demo.domain;
 
+import com.uuhnaut69.demo.config.bridge.SearchStringBridge;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
-import org.apache.lucene.analysis.core.StopFilterFactory;
-import org.apache.lucene.analysis.ngram.NGramFilterFactory;
-import org.apache.lucene.analysis.standard.StandardFilterFactory;
-import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
+import org.apache.lucene.analysis.core.WhitespaceTokenizerFactory;
+import org.apache.lucene.analysis.miscellaneous.ASCIIFoldingFilterFactory;
+import org.apache.lucene.analysis.ngram.EdgeNGramFilterFactory;
+import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Parameter;
 import org.hibernate.search.annotations.*;
 
@@ -19,28 +20,38 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Indexed
 @NoArgsConstructor
 @AllArgsConstructor
-@AnalyzerDef(name = "ngram",
-        tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+@Indexed(index = "product")
+@AnalyzerDef(name = "edgeNgram",
+        tokenizer = @TokenizerDef(factory = WhitespaceTokenizerFactory.class),
         filters = {
-                @TokenFilterDef(factory = StandardFilterFactory.class),
-                @TokenFilterDef(factory = LowerCaseFilterFactory.class),
-                @TokenFilterDef(factory = StopFilterFactory.class),
-                @TokenFilterDef(factory = NGramFilterFactory.class,
+                @TokenFilterDef(factory = ASCIIFoldingFilterFactory.class), // Replace accented characters by their simpler counterpart (è => e, etc.)
+                @TokenFilterDef(factory = LowerCaseFilterFactory.class), // Lowercase all characters
+                @TokenFilterDef(
+                        factory = EdgeNGramFilterFactory.class, // Generate prefix tokens
                         params = {
-                                @Parameter(name = "minGramSize", value = "3"),
-                                @Parameter(name = "maxGramSize", value = "3")})
-        }
-)
+                                @Parameter(name = "minGramSize", value = "1"),
+                                @Parameter(name = "maxGramSize", value = "20")
+                        }
+                )
+        })
+@AnalyzerDef(name = "edgeNgramQuery",
+        tokenizer = @TokenizerDef(factory = WhitespaceTokenizerFactory.class),
+        filters = {
+                @TokenFilterDef(factory = ASCIIFoldingFilterFactory.class), // Replace accented characters by their simpler counterpart (è => e, etc.)
+                @TokenFilterDef(factory = LowerCaseFilterFactory.class) // Lowercase all characters
+        })
 public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Field(analyze = Analyze.YES, analyzer = @Analyzer(definition = "ngram"))
+    @Fields({
+            @Field(name = "productName", index = Index.YES, analyze = Analyze.YES, analyzer = @Analyzer(definition = "edgeNgram")),
+            @Field(name = "productNameAutocomplete", index = Index.YES, analyze = Analyze.YES, analyzer = @Analyzer(definition = "edgeNgramQuery"), bridge = @FieldBridge(impl = SearchStringBridge.class))
+    })
     @Column(columnDefinition = "text")
     private String productName;
 

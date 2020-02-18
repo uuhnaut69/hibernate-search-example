@@ -7,14 +7,14 @@ import java.util.List;
 public interface ProductService {
 
     /**
-     * Generate dummy data
+     * Generate dummy product data
      *
      * @return List {@link Product
      */
     List<Product> dummyData();
 
     /**
-     * Full text search demo
+     * Full text search product
      *
      * @param text
      * @return List {@link Product}
@@ -22,7 +22,7 @@ public interface ProductService {
     List<Product> fullTextSearch(String text);
 
     /**
-     * Autocomplete demo
+     * Autocomplete product name
      *
      * @param text
      * @return List {@link Product

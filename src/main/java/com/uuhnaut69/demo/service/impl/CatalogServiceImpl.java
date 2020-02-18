@@ -2,7 +2,7 @@ package com.uuhnaut69.demo.service.impl;
 
 import com.github.javafaker.Faker;
 import com.uuhnaut69.demo.domain.Catalog;
-import com.uuhnaut69.demo.repository.CatalogRepository;
+import com.uuhnaut69.demo.repository.normal.CatalogRepository;
 import com.uuhnaut69.demo.service.CatalogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

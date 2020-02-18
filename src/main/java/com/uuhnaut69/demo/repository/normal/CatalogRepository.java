@@ -1,4 +1,4 @@
-package com.uuhnaut69.demo.repository;
+package com.uuhnaut69.demo.repository.normal;
 
 import com.uuhnaut69.demo.domain.Catalog;
 import org.springframework.data.jpa.repository.JpaRepository;

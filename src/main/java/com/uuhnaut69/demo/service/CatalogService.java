@@ -7,7 +7,7 @@ import java.util.List;
 public interface CatalogService {
 
     /**
-     * Generate dummy data
+     * Generate dummy catalog data
      *
      * @return List {@link Catalog}
      */
