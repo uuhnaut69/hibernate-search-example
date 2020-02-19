@@ -1,14 +1,15 @@
 package com.uuhnaut69.demo.service.impl;
 
 import com.github.javafaker.Faker;
-import com.uuhnaut69.demo.domain.Catalog;
-import com.uuhnaut69.demo.domain.Product;
-import com.uuhnaut69.demo.domain.Status;
+import com.uuhnaut69.demo.domain.enums.Status;
+import com.uuhnaut69.demo.domain.model.Catalog;
+import com.uuhnaut69.demo.domain.model.Product;
 import com.uuhnaut69.demo.repository.normal.ProductRepository;
 import com.uuhnaut69.demo.service.CatalogService;
 import com.uuhnaut69.demo.service.ProductService;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.search.query.facet.Facet;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +32,9 @@ public class ProductServiceImpl implements ProductService {
         Faker faker = new Faker();
         List<Product> products = new ArrayList<>();
         List<Catalog> catalogs = catalogService.findAll();
-        IntStream.range(0, 30).forEach(i -> products.add(new Product(faker.commerce().productName(), faker.commerce().material(), catalogs, Status.ENABLED)));
+        IntStream.range(0, 5000).forEach(i ->
+                products.add(new Product(faker.commerce().productName(),
+                        faker.commerce().material(), catalogs, Status.ENABLED, Double.parseDouble(faker.commerce().price()))));
         return productRepository.saveAll(products);
     }
 
@@ -59,6 +62,16 @@ public class ProductServiceImpl implements ProductService {
     public void delete(UUID id) throws NotFoundException {
         Product product = findById(id);
         productRepository.delete(product);
+    }
+
+    @Override
+    public List<Facet> facetingProductMaterial() {
+        return productRepository.facetingProductMaterial();
+    }
+
+    @Override
+    public List<Facet> facetingProductPrice(double fromPrice, double toPrice) {
+        return productRepository.facetingProductPrice(fromPrice, toPrice);
     }
 
     /**

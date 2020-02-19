@@ -1,7 +1,8 @@
-package com.uuhnaut69.demo.domain;
+package com.uuhnaut69.demo.domain.model;
 
 import com.uuhnaut69.demo.config.bridge.SearchStringBridge;
 import com.uuhnaut69.demo.config.indexcondition.IndexWhenEnabledInterceptor;
+import com.uuhnaut69.demo.domain.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -56,9 +57,10 @@ public class Product implements Serializable {
     @Column(columnDefinition = "text")
     private String productName;
 
-    @Field(analyze = Analyze.YES)
+    @Facet
+    @Field(analyze = Analyze.NO)
     @Column(columnDefinition = "text")
-    private String description;
+    private String material;
 
     @IndexedEmbedded(includeEmbeddedObjectId = true)
     @ManyToMany(fetch = FetchType.LAZY)
@@ -69,10 +71,15 @@ public class Product implements Serializable {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    public Product(String productName, String description, List<Catalog> catalogs, Status status) {
+    @Facet
+    @Field(analyze = Analyze.NO)
+    private Double price;
+
+    public Product(String productName, String material, List<Catalog> catalogs, Status status, Double price) {
         this.productName = productName;
-        this.description = description;
+        this.material = material;
         this.catalogs = catalogs;
         this.status = status;
+        this.price = price;
     }
 }

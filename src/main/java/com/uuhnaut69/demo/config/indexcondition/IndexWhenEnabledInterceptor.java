@@ -1,7 +1,7 @@
 package com.uuhnaut69.demo.config.indexcondition;
 
-import com.uuhnaut69.demo.domain.Product;
-import com.uuhnaut69.demo.domain.Status;
+import com.uuhnaut69.demo.domain.enums.Status;
+import com.uuhnaut69.demo.domain.model.Product;
 import org.hibernate.search.indexes.interceptor.EntityIndexingInterceptor;
 import org.hibernate.search.indexes.interceptor.IndexingOverride;
 

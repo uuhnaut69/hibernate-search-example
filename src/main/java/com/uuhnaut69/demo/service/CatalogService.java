@@ -1,6 +1,6 @@
 package com.uuhnaut69.demo.service;
 
-import com.uuhnaut69.demo.domain.Catalog;
+import com.uuhnaut69.demo.domain.model.Catalog;
 
 import java.util.List;
 

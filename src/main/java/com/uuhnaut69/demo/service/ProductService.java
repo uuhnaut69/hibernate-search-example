@@ -1,7 +1,8 @@
 package com.uuhnaut69.demo.service;
 
-import com.uuhnaut69.demo.domain.Product;
+import com.uuhnaut69.demo.domain.model.Product;
 import javassist.NotFoundException;
+import org.hibernate.search.query.facet.Facet;
 
 import java.util.List;
 import java.util.UUID;
@@ -45,5 +46,21 @@ public interface ProductService {
      * @throws NotFoundException
      */
     void delete(UUID id) throws NotFoundException;
+
+    /**
+     * Faceting product material
+     *
+     * @return List {@link Facet}
+     */
+    List<Facet> facetingProductMaterial();
+
+    /**
+     * Faceting product price
+     *
+     * @param fromPrice
+     * @param toPrice
+     * @return List {@link Facet}
+     */
+    List<Facet> facetingProductPrice(double fromPrice, double toPrice);
 
 }

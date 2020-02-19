@@ -1,7 +1,7 @@
 package com.uuhnaut69.demo.service.impl;
 
 import com.github.javafaker.Faker;
-import com.uuhnaut69.demo.domain.Catalog;
+import com.uuhnaut69.demo.domain.model.Catalog;
 import com.uuhnaut69.demo.repository.normal.CatalogRepository;
 import com.uuhnaut69.demo.service.CatalogService;
 import com.uuhnaut69.demo.utils.NumberUtils;
