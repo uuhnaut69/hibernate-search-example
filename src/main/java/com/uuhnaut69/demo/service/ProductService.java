@@ -63,4 +63,11 @@ public interface ProductService {
      */
     List<Facet> facetingProductPrice(double fromPrice, double toPrice);
 
+    /**
+     * Faceting product catalog
+     *
+     * @return List {@link Facet}
+     */
+    List<Facet> facetingProductCatalog();
+
 }

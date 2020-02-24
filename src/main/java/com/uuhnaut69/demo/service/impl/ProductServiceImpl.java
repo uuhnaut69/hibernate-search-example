@@ -74,6 +74,11 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.facetingProductPrice(fromPrice, toPrice);
     }
 
+    @Override
+    public List<Facet> facetingProductCatalog() {
+        return productRepository.facetingCatalog();
+    }
+
     /**
      * Find product by id
      *

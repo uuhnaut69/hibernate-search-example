@@ -63,6 +63,16 @@ public class ProductController {
     }
 
     /**
+     * Aggregation product catalog
+     *
+     * @return List {@link Facet}
+     */
+    @GetMapping("/group-catalog")
+    public List<Facet> getFacetingProductCatalog() {
+        return productService.facetingProductCatalog();
+    }
+
+    /**
      * Generate dummy product data
      *
      * @return List {@link Product}

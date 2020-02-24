@@ -72,6 +72,21 @@ public class ProductSearchRepositoryImpl implements ProductSearchRepository {
         return facetManager.getFacets("priceFaceting");
     }
 
+    @Override
+    public List<Facet> facetingCatalog() {
+        Query queryAll = getQueryBuilder().all().createQuery();
+        FacetManager facetManager = getFullTextQuery(queryAll).getFacetManager();
+        FacetingRequest catalogFacetRequest = getQueryBuilder().facet()
+                .name("catalogFaceting")
+                .onField("catalogs.catalogName")
+                .discrete()
+                .orderedBy(FacetSortOrder.COUNT_DESC)
+                .includeZeroCounts(false)
+                .createFacetingRequest();
+        facetManager.enableFaceting(catalogFacetRequest);
+        return facetManager.getFacets("catalogFaceting");
+    }
+
     /**
      * Get full text query
      *
