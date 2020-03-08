@@ -1,7 +1,8 @@
 package com.uuhnaut69.demo.domain.model;
 
 import com.uuhnaut69.demo.config.bridge.SearchStringBridge;
-import com.uuhnaut69.demo.config.indexcondition.IndexWhenEnabledInterceptor;
+import com.uuhnaut69.demo.config.indexcondition.ProductIndexInterceptor;
+import com.uuhnaut69.demo.domain.constant.DomainConstant;
 import com.uuhnaut69.demo.domain.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +25,8 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Indexed(index = "product", interceptor = IndexWhenEnabledInterceptor.class)
+@Table(name = DomainConstant.PRODUCT)
+@Indexed(index = DomainConstant.PRODUCT, interceptor = ProductIndexInterceptor.class)
 @AnalyzerDef(name = "edgeNgram",
         tokenizer = @TokenizerDef(factory = WhitespaceTokenizerFactory.class),
         filters = {

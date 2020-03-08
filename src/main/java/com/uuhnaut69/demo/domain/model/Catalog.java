@@ -1,6 +1,7 @@
 package com.uuhnaut69.demo.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.uuhnaut69.demo.domain.constant.DomainConstant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,8 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Indexed(index = "catalog")
+@Table(name = DomainConstant.CATALOG)
+@Indexed(index = DomainConstant.CATALOG)
 public class Catalog implements Serializable {
 
     @Id

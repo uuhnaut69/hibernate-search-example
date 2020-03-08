@@ -32,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
         Faker faker = new Faker();
         List<Product> products = new ArrayList<>();
         List<Catalog> catalogs = catalogService.findAll();
-        IntStream.range(0, 5000).forEach(i ->
+        IntStream.range(0, 100).forEach(i ->
                 products.add(new Product(faker.commerce().productName(),
                         faker.commerce().material(), catalogs, Status.ENABLED, Double.parseDouble(faker.commerce().price()))));
         return productRepository.saveAll(products);

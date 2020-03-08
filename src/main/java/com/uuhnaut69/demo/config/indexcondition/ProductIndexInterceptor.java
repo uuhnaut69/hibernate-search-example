@@ -5,7 +5,7 @@ import com.uuhnaut69.demo.domain.model.Product;
 import org.hibernate.search.indexes.interceptor.EntityIndexingInterceptor;
 import org.hibernate.search.indexes.interceptor.IndexingOverride;
 
-public class IndexWhenEnabledInterceptor implements EntityIndexingInterceptor<Product> {
+public class ProductIndexInterceptor implements EntityIndexingInterceptor<Product> {
 
     @Override
     public IndexingOverride onAdd(Product product) {
