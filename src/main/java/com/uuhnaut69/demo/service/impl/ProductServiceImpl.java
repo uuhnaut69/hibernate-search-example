@@ -48,19 +48,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void toggleStatusProduct(UUID id) throws NotFoundException {
+    public void toggleStatusProduct(UUID id) {
         Product product = findById(id);
-        if (product.getStatus() == Status.ENABLED) {
-            product.setStatus(Status.DISABLED);
-        } else {
-            product.setStatus(Status.ENABLED);
-        }
+        if (product != null){
+            if (product.getStatus() == Status.ENABLED) {
+                product.setStatus(Status.DISABLED);
+            } else {
+                product.setStatus(Status.ENABLED);
+            }
+        }    
     }
 
     @Override
-    public void delete(UUID id) throws NotFoundException {
-        Product product = findById(id);
-        productRepository.delete(product);
+    public void delete(UUID id) {
+        productRepository.deleteById(id);
     }
 
     @Override
@@ -78,14 +79,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.facetingCatalog();
     }
 
-    /**
-     * Find product by id
-     *
-     * @param id
-     * @return
-     * @throws NotFoundException
-     */
-    private Product findById(UUID id) throws NotFoundException {
+    private Product findById(UUID id) {
         return productRepository.findById(id).orElse(null);
     }
 }
