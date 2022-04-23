@@ -87,6 +87,6 @@ public class ProductServiceImpl implements ProductService {
      * @throws NotFoundException
      */
     private Product findById(UUID id) throws NotFoundException {
-        return productRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found product"));
+        return productRepository.findById(id).orElse(null);
     }
 }
