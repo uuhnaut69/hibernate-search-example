@@ -2,7 +2,6 @@ package com.uuhnaut69.demo.controller;
 
 import com.uuhnaut69.demo.domain.model.Product;
 import com.uuhnaut69.demo.service.ProductService;
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.search.query.facet.Facet;
 import org.springframework.web.bind.annotation.*;
@@ -89,7 +88,7 @@ public class ProductController {
      * @throws NotFoundException
      */
     @PatchMapping("/{id}/toggle-status")
-    public void toggleStatusProduct(@PathVariable UUID id) throws NotFoundException {
+    public void toggleStatusProduct(@PathVariable UUID id) {
         productService.toggleStatusProduct(id);
     }
 
@@ -100,7 +99,7 @@ public class ProductController {
      * @throws NotFoundException
      */
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable UUID id) throws NotFoundException {
+    public void deleteProduct(@PathVariable UUID id) {
         productService.delete(id);
     }
 
