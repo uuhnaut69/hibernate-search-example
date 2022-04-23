@@ -1,7 +1,6 @@
 package com.uuhnaut69.demo.service;
 
 import com.uuhnaut69.demo.domain.model.Product;
-import javassist.NotFoundException;
 import org.hibernate.search.query.facet.Facet;
 
 import java.util.List;
@@ -37,15 +36,14 @@ public interface ProductService {
      *
      * @param id
      */
-    void toggleStatusProduct(UUID id) throws NotFoundException;
+    void toggleStatusProduct(UUID id);
 
     /**
      * Delete product
      *
      * @param id
-     * @throws NotFoundException
      */
-    void delete(UUID id) throws NotFoundException;
+    void delete(UUID id);
 
     /**
      * Faceting product material
