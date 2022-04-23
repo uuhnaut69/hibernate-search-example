@@ -7,7 +7,6 @@ import com.uuhnaut69.demo.domain.model.Product;
 import com.uuhnaut69.demo.repository.normal.ProductRepository;
 import com.uuhnaut69.demo.service.CatalogService;
 import com.uuhnaut69.demo.service.ProductService;
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.search.query.facet.Facet;
 import org.springframework.stereotype.Service;
