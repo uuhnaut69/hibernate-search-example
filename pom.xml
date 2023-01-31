@@ -16,7 +16,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<hibernate.search.version>5.11.11.Final</hibernate.search.version>
+		<hibernate.search.version>5.11.12.Final</hibernate.search.version>
 	</properties>
 
 	<dependencies>
